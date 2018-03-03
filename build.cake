@@ -38,12 +38,12 @@ Task("Push-NuGet-Packages")
     .WithCriteria(isVSTS)
     .Does(() => 
     {
-        var accessToken = EnvironmentVariable("System.AccessToken");
+        var accessToken = EnvironmentVariable("SYSTEM_ACCESSTOKEN");
 
         NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", new NuGetSourcesSettings()
         {
             UserName = userName,
-            Password = accessToken,
+            Password = accessToken
         });
 
         foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
@@ -53,7 +53,8 @@ Task("Push-NuGet-Packages")
             NuGetPush(packageFile, new NuGetPushSettings 
             { 
                 Source = "PelismFeed", 
-                ApiKey = "VSTS"
+                ApiKey = "VSTS",
+                Verbosity = NuGetVerbosity.Detailed
             });
         }
     });
