@@ -38,14 +38,6 @@ Task("Push-NuGet-Packages")
     .WithCriteria(isVSTS)
     .Does(() => 
     {
-        var accessToken = EnvironmentVariable("SYSTEM_ACCESSTOKEN");
-
-        NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3", new NuGetSourcesSettings()
-        {
-            UserName = userName,
-            Password = accessToken
-        });
-
         foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
         {
             Information($"FullPath: {packageFile.FullPath}");
