@@ -14,7 +14,7 @@ var buildDir = source + Directory("TwitterApi/bin") + Directory(configuration);
 var buildDirCore = source + Directory("TwitterApiCore/bin") + Directory(configuration);
 var solution = "TwitterApi.sln";
 var isVSTS = TFBuild.IsRunningOnVSTS || TFBuild.IsRunningOnTFS;
-var userName = "dbarkwell@hotmail.com"
+var userName = "dbarkwell@hotmail.com";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
