@@ -4,12 +4,12 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
+var environment = Argument("environment", "Local");
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
 //////////////////////////////////////////////////////////////////////
 
-var environment = EnvironmentVariable("build.environment") ?? "Local";
 var source = Directory("./src");
 var buildDir = source + Directory("TwitterApi/bin") + Directory(configuration);
 var buildDirCore = source + Directory("TwitterApiCore/bin") + Directory(configuration);
