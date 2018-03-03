@@ -5,6 +5,7 @@
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
 var environment = Argument<string>("environment", "Local");
+var buildId = Argument("buildId", 0);
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -52,7 +53,12 @@ Task("Push-NuGet-Package")
             }
             else
             {
-                NuGetPush(packageFile, new NuGetPushSettings { Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", ApiKey = "VSTS" });
+                NuGetPush(packageFile, new NuGetPushSettings 
+                { 
+                    Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", 
+                    ApiKey = "VSTS", 
+                    ConfigFile = FilePath($"D:\a\1\Nuget\tempNuGet_{buildId}.config") 
+                });
             }
         }
     });
@@ -69,10 +75,14 @@ Task("Build")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-	.IsDependentOn("Push-NuGet-Package")
-	.Does(() =>
+    .IsDependentOn("Push-NuGet-Package")
+    .Does(() =>
     {
-	   Information("Done");
+        Information("Done");
+        if (buildId != 0)
+        {
+            Information($"Running build number {buildId}"))
+    }
     });
 
 //////////////////////////////////////////////////////////////////////
