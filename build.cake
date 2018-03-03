@@ -57,7 +57,7 @@ Task("Push-NuGet-Package")
                 { 
                     Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", 
                     ApiKey = "VSTS", 
-                    ConfigFile = FilePath($"D:\a\1\Nuget\tempNuGet_{buildId}.config") 
+                    ConfigFile = $"D:\\a\\1\\Nuget\\tempNuGet_{buildId}.config"
                 });
             }
         }
@@ -81,8 +81,8 @@ Task("Default")
         Information("Done");
         if (buildId != 0)
         {
-            Information($"Running build number {buildId}"))
-    }
+            Information($"Running build number {buildId}");
+        }
     });
 
 //////////////////////////////////////////////////////////////////////
