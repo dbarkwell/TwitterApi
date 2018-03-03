@@ -3,6 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Authors>Dan Barkwell</Authors>
+    <Company>Pelism Software Solutions</Company>
   </PropertyGroup>
 
 </Project>
