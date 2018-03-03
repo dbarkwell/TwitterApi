@@ -40,7 +40,7 @@ Task("Push-NuGet-Packages")
     {
         var accessToken = EnvironmentVariable("SYSTEM_ACCESSTOKEN");
 
-        NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", new NuGetSourcesSettings()
+        NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3", new NuGetSourcesSettings()
         {
             UserName = userName,
             Password = accessToken
