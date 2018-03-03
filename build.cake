@@ -4,8 +4,6 @@
 
 var target = Argument("target", "Default");
 var configuration = Argument("configuration", "Release");
-var environment = Argument<string>("environment", "Local");
-var buildId = Argument("buildId", 0);
 
 //////////////////////////////////////////////////////////////////////
 // PREPARATION
@@ -15,6 +13,8 @@ var source = Directory("./src");
 var buildDir = source + Directory("TwitterApi/bin") + Directory(configuration);
 var buildDirCore = source + Directory("TwitterApiCore/bin") + Directory(configuration);
 var solution = "TwitterApi.sln";
+var isVSTS = TFBuild.IsRunningOnVSTS || TFBuild.IsRunningOnTFS;
+var userName = "dbarkwell@hotmail.com"
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -34,32 +34,38 @@ Task("Restore-NuGet-Package")
         NuGetRestore($"./{solution}");
     });
 
-Task("Push-NuGet-Package")
-    .IsDependentOn("Build")
+Task("Push-NuGet-Packages")
+    .WithCriteria(isVSTS)
     .Does(() => 
     {
-        if (environment != "Local" && environment != "Remote")
-        {
-            Warning("Unknown environment. Skipping nuget push.");
-            return;
-        }
+        var accessToken = EnvironmentVariable("System.AccessToken");
 
-        foreach (var packageFile in GetFiles(source.ToString() + "/**/*.nupkg"))
+        NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", new NuGetSourcesSettings()
+        {
+            UserName = userName,
+            Password = accessToken,
+        });
+
+        foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
         {
             Information($"FullPath: {packageFile.FullPath}");
-            if (environment == "Local")
-            {
-                NuGetPush(packageFile, new NuGetPushSettings { Source = @"c:\projects\local-nuget" });
-            }
-            else
-            {
-                NuGetPush(packageFile, new NuGetPushSettings 
-                { 
-                    Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", 
-                    ApiKey = "VSTS", 
-                    ConfigFile = $"D:\\a\\1\\Nuget\\tempNuGet_{buildId}.config"
-                });
-            }
+           
+            NuGetPush(packageFile, new NuGetPushSettings 
+            { 
+                Source = "PelismFeed", 
+                ApiKey = "VSTS"
+            });
+        }
+    });
+
+Task("Push-NuGet-Local")
+    .WithCriteria(!isVSTS)
+    .Does(() => 
+    {
+        foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
+        {
+            Information($"FullPath: {packageFile.FullPath}");
+            NuGetPush(packageFile, new NuGetPushSettings { Source = @"c:\projects\local-nuget" });
         }
     });
 
@@ -75,14 +81,12 @@ Task("Build")
 //////////////////////////////////////////////////////////////////////
 
 Task("Default")
-    .IsDependentOn("Push-NuGet-Package")
+    .IsDependentOn("Build")
+    .IsDependentOn("Push-NuGet-Packages")
+    .IsDependentOn("Push-Nuget-Local")
     .Does(() =>
     {
         Information("Done");
-        if (buildId != 0)
-        {
-            Information($"Running build number {buildId}");
-        }
     });
 
 //////////////////////////////////////////////////////////////////////
@@ -91,7 +95,7 @@ Task("Default")
 
 Setup(context =>
 {
-    Information($"Using environment {environment}");
+    Information($"Running Local: {!isVSTS}");
 });
 
 RunTarget(target);
