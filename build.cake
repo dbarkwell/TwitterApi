@@ -54,7 +54,7 @@ Task("Push-NuGet-Packages")
            
             NuGetPush(packageFile, new NuGetPushSettings 
             { 
-                Source = "PelismFeed", 
+                Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", 
                 ApiKey = "VSTS",
                 Verbosity = NuGetVerbosity.Detailed
             });
