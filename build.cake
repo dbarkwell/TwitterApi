@@ -14,7 +14,6 @@ var buildDir = source + Directory("TwitterApi/bin") + Directory(configuration);
 var buildDirCore = source + Directory("TwitterApiCore/bin") + Directory(configuration);
 var solution = "TwitterApi.sln";
 var isVSTS = TFBuild.IsRunningOnVSTS || TFBuild.IsRunningOnTFS;
-var userName = "dbarkwell@hotmail.com";
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -32,33 +31,6 @@ Task("Restore-NuGet-Package")
     .Does(() =>
     {
         NuGetRestore($"./{solution}");
-    });
-
-Task("Push-NuGet-Packages")
-    .WithCriteria(isVSTS)
-    .Does(() => 
-    {
-        var accessToken = EnvironmentVariable("SYSTEM_ACCESSTOKEN");
-
-        NuGetAddSource("PelismFeed", "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", new NuGetSourcesSettings
-        {
-            UserName = userName,
-            Password = accessToken,
-            IsSensitiveSource = true,
-            Verbosity = NuGetVerbosity.Detailed
-        });
-
-        foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
-        {
-            Information($"FullPath: {packageFile.FullPath}");
-           
-            NuGetPush(packageFile, new NuGetPushSettings 
-            { 
-                Source = "https://pelism.pkgs.visualstudio.com/_packaging/PelismFeed/nuget/v3/index.json", 
-                ApiKey = "VSTS",
-                Verbosity = NuGetVerbosity.Detailed
-            });
-        }
     });
 
 Task("Push-NuGet-Local")
@@ -85,7 +57,6 @@ Task("Build")
 
 Task("Default")
     .IsDependentOn("Build")
-    .IsDependentOn("Push-NuGet-Packages")
     .IsDependentOn("Push-Nuget-Local")
     .Does(() =>
     {
