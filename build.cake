@@ -37,7 +37,9 @@ Task("Push-NuGet-Local")
     .WithCriteria(!isVSTS)
     .Does(() => 
     {
-        foreach (var packageFile in GetFiles(buildDir.ToString() + "/**/*.nupkg"))
+        var nupkgs = GetFiles(buildDir.ToString() + "/**/*.nupkg");
+        var allPackages = nupkgs.Union(GetFiles(buildDirCore.ToString() + "/**/*.nupkg"));
+        foreach (var packageFile in allPackages)
         {
             Information($"FullPath: {packageFile.FullPath}");
             NuGetPush(packageFile, new NuGetPushSettings { Source = @"c:\projects\local-nuget" });

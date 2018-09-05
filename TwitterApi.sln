@@ -5,8 +5,6 @@ VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterApi", "src\TwitterApi\TwitterApi.csproj", "{8110A505-ED39-4387-B890-84B494D3B2DF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwitterApiCore", "src\TwitterApiCore\TwitterApiCore.csproj", "{F98FFDCB-DC3F-44D5-A142-517A4A734F1F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ACADBEEC-35EB-4518-A7A7-AE69296596B8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{35424300-D6A3-4202-B2BC-713988095EB2}"
@@ -21,17 +19,12 @@ Global
 		{8110A505-ED39-4387-B890-84B494D3B2DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8110A505-ED39-4387-B890-84B494D3B2DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8110A505-ED39-4387-B890-84B494D3B2DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F98FFDCB-DC3F-44D5-A142-517A4A734F1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F98FFDCB-DC3F-44D5-A142-517A4A734F1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F98FFDCB-DC3F-44D5-A142-517A4A734F1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F98FFDCB-DC3F-44D5-A142-517A4A734F1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8110A505-ED39-4387-B890-84B494D3B2DF} = {ACADBEEC-35EB-4518-A7A7-AE69296596B8}
-		{F98FFDCB-DC3F-44D5-A142-517A4A734F1F} = {ACADBEEC-35EB-4518-A7A7-AE69296596B8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7517EADA-8A41-4F52-9262-5DC2C6E90231}

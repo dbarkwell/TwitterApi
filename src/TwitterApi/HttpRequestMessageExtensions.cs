@@ -11,9 +11,9 @@ namespace TwitterApi
     {
         public static void SetTwitterOAuthHeader(this HttpRequestMessage message, string consumerKey, string consumerKeySecret, string accessToken, string accessTokenSecret)
         {
-            var oauthNonce = CreateOauthNonce();
+            var oauthNonce = CreateOAuthNonce();
             var timeStamp = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString();
-            var oauthSignature = CreateOauthSignature(message, consumerKey, consumerKeySecret, accessToken, accessTokenSecret, oauthNonce, timeStamp);
+            var oauthSignature = CreateOAuthSignature(message, consumerKey, consumerKeySecret, accessToken, accessTokenSecret, oauthNonce, timeStamp);
 
             const string HeaderFormat = "oauth_nonce=\"{0}\", oauth_signature_method=\"{1}\", " +
                                         "oauth_timestamp=\"{2}\", oauth_consumer_key=\"{3}\", " +
@@ -33,12 +33,12 @@ namespace TwitterApi
             message.Headers.Authorization = new AuthenticationHeaderValue("OAuth", header);
         }
 
-        private static string CreateOauthNonce()
+        private static string CreateOAuthNonce()
         {
             return Convert.ToBase64String(new ASCIIEncoding().GetBytes(DateTime.Now.Ticks.ToString()));
         }
 
-        private static string CreateOauthSignature(HttpRequestMessage message, string consumerKey, string consumerKeySecret, string accessToken, string accessTokenSecret, string nonce, string timestamp)
+        private static string CreateOAuthSignature(HttpRequestMessage message, string consumerKey, string consumerKeySecret, string accessToken, string accessTokenSecret, string nonce, string timestamp)
         {
             var requestParameters = new SortedDictionary<string, string>
             {

@@ -1,14 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net461</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Authors>Dan Barkwell</Authors>
     <Company>Pelism Software Solutions</Company>
+    <Version>2.0.0-beta-1</Version>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netcoreapp2.0|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+    <OutputPath>bin\Debug\netstandard2.0\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="System.Net.Http" />
+    <PackageReference Include="System.Json" Version="4.5.0" />
   </ItemGroup>
 
 </Project>
